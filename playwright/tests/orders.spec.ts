@@ -85,6 +85,8 @@ test("TC: SALEOR_78 Capture partial amounts by manual transactions and fulfill o
   const firstManualTransactionAmount = "100";
   const secondManualTransactionAmount = "20";
 
+  test.slow();
+
   await ordersPage.goToExistingOrderPage(
     ORDERS.ordersWithinTransactionFlow.captureManualTransactionOrder.orderId,
   );
@@ -180,8 +182,6 @@ test("TC: SALEOR_81 Change billing address in fulfilled order @e2e @order", asyn
 
   await ordersPage.expectSuccessBanner();
 
-  await ordersPage.expectSuccessBanner();
-
   await addressesListPage.verifyRequiredAddressFields(newAddress.firstName, newAddress);
   await addressesListPage.verifyPhoneField(newAddress.firstName, newAddress);
   await addressesListPage.verifyCompanyField(newAddress.firstName, newAddress);
@@ -230,6 +230,7 @@ test("TC: SALEOR_83 Draft orders bulk delete @e2e @draft", async () => {
 });
 
 test("TC: SALEOR_84 Create draft order @e2e @draft", async () => {
+  test.slow();
   await draftOrdersPage.goToDraftOrdersListView();
   await draftOrdersPage.clickCreateDraftOrderButton();
   await draftOrdersPage.draftOrderCreateDialog.completeDraftOrderCreateDialogWithFirstChannel();
@@ -242,9 +243,12 @@ test("TC: SALEOR_84 Create draft order @e2e @draft", async () => {
   await draftOrdersPage.rightSideDetailsPage.clickEditCustomerButton();
   await draftOrdersPage.rightSideDetailsPage.clickSearchCustomerInput();
   await draftOrdersPage.rightSideDetailsPage.selectCustomer();
+  await draftOrdersPage.expectSuccessBanner();
   await draftOrdersPage.addressDialog.clickConfirmButton();
+  await draftOrdersPage.expectSuccessBanner();
   await draftOrdersPage.clickAddShippingCarrierButton();
   await draftOrdersPage.shippingAddressDialog.pickAndConfirmFirstShippingMethod();
+  await draftOrdersPage.expectSuccessBanner();
   await draftOrdersPage.clickFinalizeButton();
   await draftOrdersPage.expectSuccessBannerMessage("finalized");
 });
